@@ -47,9 +47,9 @@ if $COMP; then
 
     # Either using CFLAGS for valgrind or not
     if [ "$valgrind" = "yes" ]; then
-        sed -i "s/^CFLAGS =.*/CFLAGS = -I../inc -Wall -Wextra -g -O0/" makefile
+        sed -i "s|^CFLAGS =.*|CFLAGS = -I../inc -Wall -Wextra -g -O0|" makefile
     else
-        sed -i "s/^CFLAGS =.*/CFLAGS = -I../inc -Wall -Wextra/" makefile
+        sed -i "s|^CFLAGS =.*|CFLAGS = -I../inc -Wall -Wextra|" makefile
     fi
     
     # Clean up prev compilation

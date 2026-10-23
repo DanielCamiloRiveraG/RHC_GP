@@ -1,0 +1,14 @@
+Subcuenca_5                            ! Watershed name and hydrometric station
+4.116667                       ! Outlet latitude (dec)
+-73.283333                      ! Outlet longitude (dec)
+340                           ! Outlet altitude in (m.a.s.l)
+292.2649                         ! Watershed area in km^2
+1981 01 01 00 00 00                 ! Starting time (yyyy mm dd hr[0 23] min[0 59] sec[0 59])
+2026 07 31 00 00 00                 ! End time (yyyy mm dd hr[0 23] min[0 59] sec[0 59])
+86400   			            ! Time step (s)
+
+hamon1                          ! PET method ['obs', 'hamon0', 'hamon1', 'pen-mon']
+0.16 10.0                        ! [Albedo] [Altitute at wich wind speed is measured (usally 10 m overground)]  
+
+hymod                            ! Model's name 
+0.36052 0.29633 0.0 -5.0 -5.0 0.29181 1.63257 0.31617 3 1.0        ! Model parameters: ks  kq  ddf  tb  tth  alpha  b   huz  nq kv

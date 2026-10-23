@@ -1,6 +1,6 @@
 # Define the compiler and the flags
 CC = gcc
-CFLAGS = -I../inc -Wall -Wextra -g -O0 # For valgrind
+CFLAGS = -I../inc -Wall -Wextra
 LDFLAGS = -lm  # Link math library
 
 # Define the source and header files

@@ -341,6 +341,7 @@ void save_model_diagnostic(char *filename, const unsigned int n, const double *o
         return;
     }
 
+    fprintf(fp,"KGE,%0.8lf\n",   kling_gupta( n, obs, sim));
     fprintf(fp,"NSE,%0.8lf\n", nash_sutcliffe(  n,   obs,   sim));
     fprintf(fp,"LNSE,%0.8lf\n",  log_nash_sutcliffe( n,   obs,   sim));
     fprintf(fp,"RMSE,%0.8lf\n",  root_mean_squared_error( n,   obs,   sim));

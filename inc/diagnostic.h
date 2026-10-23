@@ -22,6 +22,7 @@
 #include "utils.h"
 
 
+double kling_gupta(const unsigned int n, const double *obs, const double *sim);
 double nash_sutcliffe(const unsigned int n, const double *obs, const double *sim);
 double log_nash_sutcliffe(const unsigned int n, const double *obs, const double *sim);
 double root_mean_squared_error(const unsigned int n, const double *obs, const double *sim);
