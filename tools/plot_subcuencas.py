@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 __all__ = ['MultiModelPlotter']
-__version__ = '0.5'
+__version__ = '0.6'
 __author__ = 'Camilo Rivera'
 
 import os
@@ -19,19 +19,6 @@ class MultiModelPlotter:
         # Mapeo de nombres legibles y colores individuales por modelo
         self.model_names = {"gr4j": "GR4J", "hbv": "HBV", "hymod": "HYMOD"}
         self.model_colors = {"gr4j": "tab:blue", "hbv": "tab:red", "hymod": "tab:green"}
-
-        # Áreas de las subcuencas en m²
-        self.areas_subcuencas = {
-            'S1': 61276000,
-            'S2': 100297800,
-            'S3': 304502200,
-            'S4': 802847000,
-            'S5': 292264900,
-            'S6': 1800002600
-        }
-        
-        # Constante de conversión de mm/día a m/s
-        self.k = 1 / (1000 * 86400)
 
     def _crear_grafica(self, df_model, model_key, titulo, ylabel, ruta_guardado, col="q_m3s"):
         """Función auxiliar para generar y guardar una gráfica individual por modelo."""
@@ -77,9 +64,7 @@ class MultiModelPlotter:
 
         print(f"Procesando Subcuenca {subbasin}...")
         
-        area = self.areas_subcuencas[subbasin]
-
-        # 3. Leer datos y aplicar conversión a m³/s
+        # 3. Leer datos
         dfs_diarios = {}
         dfs_mensuales = {}
         dfs_anuales = {}
@@ -87,7 +72,6 @@ class MultiModelPlotter:
         for model_key, filepath in paths.items():
             df = pd.read_csv(filepath, parse_dates=["datetime"], index_col="datetime")
             # Conversión de caudal de mm/día a m³/s (Q = q_mm * k * área)
-            df["q_m3s"] = df["q_mm"] * self.k * area
             dfs_diarios[model_key] = df
 
             # Agrupación por promedio

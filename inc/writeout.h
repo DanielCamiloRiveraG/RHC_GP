@@ -114,7 +114,7 @@ typedef struct {
 /*
  * Function prototypes
  */
-void save_model_results(char *filename, const unsigned int n, struct tm *timestamp, const modstatev *mstv, const modfluxv *mfxv, const double *et);
+void save_model_results(char *filename, const unsigned int n, struct tm *timestamp, const modstatev *mstv, const modfluxv *mfxv, const double *et, const double area);
 void save_model_diagnostic(char *filename, const unsigned int n, const double *obs, const double *sim);
 int allocateMemo_modstatev(const unsigned int size, modstatev *mstv, const unsigned int nq);
 void freeMemo_modstatev(const unsigned int size, modstatev *mstv);

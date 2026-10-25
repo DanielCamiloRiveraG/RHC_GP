@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 __all__ = ['MultiModelPlotter']
-__version__ = '0.3'
+__version__ = '0.4'
 __author__ = 'Camilo Rivera'
 
 import os
@@ -17,19 +17,6 @@ class MultiModelDistributionPlotter:
         self.subbasins = ["S1", "S2", "S3", "S4", "S5", "S6"]
         self.models = ["gr4j", "hbv", "hymod"]
         self.colors = {"GR4J": "tab:blue", "HBV": "tab:red", "HYMOD": "tab:green"}
-
-        # Áreas de las subcuencas en m²
-        self.areas_subcuencas = {
-            'S1': 61276000,
-            'S2': 100297800,
-            'S3': 304502200,
-            'S4': 802847000,
-            'S5': 292264900,
-            'S6': 1800002600
-        }
-        
-        # Constante de conversión de mm/día a m/s
-        self.k = 1 / (1000 * 86400)
 
     def plot_distribution(self, subbasin):
         """Genera y guarda las gráficas de distribución de probabilidad (KDE y CDF) en m³/s para una subcuenca."""
@@ -51,17 +38,10 @@ class MultiModelDistributionPlotter:
 
         print(f"\nProcesando Distribuciones de Probabilidad para Subcuenca {subbasin}...")
         
-        # Extraer área de la subcuenca actual
-        area = self.areas_subcuencas[subbasin]
-
         # 3. Cargar datos
         df_gr4j = pd.read_csv(results_gr4j, parse_dates=["datetime"])
         df_hbv = pd.read_csv(results_hbv, parse_dates=["datetime"])
         df_hymod = pd.read_csv(results_hymod, parse_dates=["datetime"])
-
-        # Convertir caudales de mm/día a m³/s (Q = q_mm * k * área)
-        for df in [df_gr4j, df_hbv, df_hymod]:
-            df["q_m3s"] = df["q_mm"] * self.k * area
 
         # Asignar etiqueta de modelo
         df_gr4j['Modelo'] = 'GR4J'

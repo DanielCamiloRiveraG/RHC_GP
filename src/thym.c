@@ -87,7 +87,7 @@ int main(int argc, char **argv){
     #endif
    
     // Print model output
-    save_model_results(ininf.resultsoutf, metini.ntimes, metin.timestamp, &mstv, &mfxv, evp.et);
+    save_model_results(ininf.resultsoutf, metini.ntimes, metin.timestamp, &mstv, &mfxv, evp.et, ctrlb.area);
 
     // Print model diagnostic metrics
     save_model_diagnostic(ininf.diagnosticoutf, metini.ntimes, metin.runoff, mfxv.q);

@@ -274,7 +274,7 @@ void freeMemo_modfluxv(modfluxv *mfxv){
 /*
  * Write out state and flux variables in 'results.out' file.
  */
-void save_model_results(char *filename, const unsigned int n, struct tm *timestamp, const modstatev *mstv, const modfluxv *mfxv, const double *et){
+void save_model_results(char *filename, const unsigned int n, struct tm *timestamp, const modstatev *mstv, const modfluxv *mfxv, const double *et, const double area){
 
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
@@ -282,48 +282,51 @@ void save_model_results(char *filename, const unsigned int n, struct tm *timesta
         return;
     }
 
-    // Write header
+    // Conversion constant: k = 1 / (1000 * 86400)
+    const double k = 1.0 / 86400000.0;
+
+    // Write header (Se agrega ',q_m3s' al final)
 
     #if MODEL == 1 // GR4J
 
-            fprintf(fp, "datetime,rainfall_mm,snowfall_mm,sno_mm,tsnow_oC,snomlt_mm,eres_mm,pn_mm,ps_mm,pr_mm,en_mm,es_mm,s_mm,r_mm,perc_mm,f_mm,qa_mm,qb_mm,qr_mm,qd_mm,q_mm,et_mm\n");
+            fprintf(fp, "datetime,rainfall_mm,snowfall_mm,sno_mm,tsnow_oC,snomlt_mm,eres_mm,pn_mm,ps_mm,pr_mm,en_mm,es_mm,s_mm,r_mm,perc_mm,f_mm,qa_mm,qb_mm,qr_mm,qd_mm,q_mm,et_mm,q_m3s\n");
 
     #elif MODEL == 2 // HBV
-        fprintf(fp, "datetime,sowat_mm,sdep_mm,ldep_mm,stw1_mm,stw2_mm,acet_mm,q_mm,et_mm\n");
+        fprintf(fp, "datetime,sowat_mm,sdep_mm,ldep_mm,stw1_mm,stw2_mm,acet_mm,q_mm,et_mm,q_m3s\n");
 
     #elif MODEL == 3 // HYMOD
-        fprintf(fp, "datetime,xhuz_mm,snow_store_mm,ae_mm,ov_mm,qq_mm,qs_mm,snow_mm,melt_mm,pe_mm,q_mm,et_mm\n");
+        fprintf(fp, "datetime,xhuz_mm,snow_store_mm,ae_mm,ov_mm,qq_mm,qs_mm,snow_mm,melt_mm,pe_mm,q_mm,et_mm,q_m3s\n");
     
     #endif
 
     unsigned int i;
     char buffer[30];
     for (i = 0; i < n; i++) {
-        /* printf("year: %d, month: %d, day: %d, jday: %d\n", timestamp[i].tm_year, timestamp[i].tm_mon,timestamp[i].tm_mday, timestamp[i].tm_yday+1); */
-        // Format timestamp as YYYY-MM-DD HH:MM:SS
         timestamp[i].tm_year -= 1900;
         timestamp[i].tm_mon -= 1;
         strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &timestamp[i]);
 
+        // q_m3s: (mm/d) * (1 m / 1000 mm) * (1 d / 86400 s) * area (m²)
+        double q_m3s = mfxv->q[i] * k * area;
+
         #if MODEL == 1 // GR4J
                        
-                fprintf(fp, "%s,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf\n", buffer, mfxv->rainfall[i], mfxv->snowfall[i], mfxv->sno[i], mstv->tsnow[i], mfxv->snomlt[i], mfxv->eres[i], mfxv->pn[i], mfxv->ps[i], mfxv->pr[i], mfxv->en[i], mfxv->es[i], mstv->s[i], mstv->r[i], mfxv->perc[i], mfxv->f[i], mfxv->qa[i], mfxv->qb[i], mfxv->qr[i], mfxv->qd[i], mfxv->q[i], et[i]);
+                fprintf(fp, "%s,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf\n", buffer, mfxv->rainfall[i], mfxv->snowfall[i], mfxv->sno[i], mstv->tsnow[i], mfxv->snomlt[i], mfxv->eres[i], mfxv->pn[i], mfxv->ps[i], mfxv->pr[i], mfxv->en[i], mfxv->es[i], mstv->s[i], mstv->r[i], mfxv->perc[i], mfxv->f[i], mfxv->qa[i], mfxv->qb[i], mfxv->qr[i], mfxv->qd[i], mfxv->q[i], et[i], q_m3s);
 
         #elif MODEL == 2 // HBV
    
-            fprintf(fp,"%s,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf\n",buffer, mstv->sowat[i], mstv->sdep[i], mstv->ldep[i], mstv->stw1[i], mstv->stw2[i], mfxv->acet[i], mfxv->q[i], et[i]);
+            fprintf(fp,"%s,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf\n",buffer, mstv->sowat[i], mstv->sdep[i], mstv->ldep[i], mstv->stw1[i], mstv->stw2[i], mfxv->acet[i], mfxv->q[i], et[i], q_m3s);
         
         #elif MODEL == 3 // HYMOD
         
-            fprintf(fp,"%s,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf\n",buffer, mstv->xhuz[i], mstv->snow_store[i], mfxv->ae[i], mfxv->ov[i], mfxv->qq[i], mfxv->qs[i], mfxv->snow[i], mfxv->melt[i], mfxv->pe[i], mfxv->q[i], et[i]);
+            fprintf(fp,"%s,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf,%.8lf\n",buffer, mstv->xhuz[i], mstv->snow_store[i], mfxv->ae[i], mfxv->ov[i], mfxv->qq[i], mfxv->qs[i], mfxv->snow[i], mfxv->melt[i], mfxv->pe[i], mfxv->q[i], et[i], q_m3s);
         
         #else // IAHCRES
         
         
         #endif
 
-
-            }
+    }
 
     fclose(fp);
     /* printf("Time series written to %s\n", filename); */

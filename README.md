@@ -1,3 +1,34 @@
+# RECONSTRUCCION HISTORICA DE CAUDALES - GUATIQUIA PROJECT (RHC_GP)
+---
+
+## Descripción
+
+**RHC_GP** es una plaforma de modelación hidrólogica basada en el repositorio **thym** para la reconstrucción histórica de caudales del proyecto de extensión solidaria "Sistema de predicción hidrológica para el análisis de la vulnerabilidad y del riesgo por inundación en la cuenca del Río Guatiquía, Meta, Colombia" de la Universidad Nacional de Colombia, Sede Bogotá.
+La plataforma incluye tres diferentes modelos:
+
+1. *GR4J*
+2. *HBV*
+3. *HYMOD*
+
+Para aprender a usar la plataforma dirijase al título **TROPICAL HYDROLOGICAL MODELLING (THYM) PLATFORM** donde encontrará la estructura del código, compilación, ejecución y graficación e información saobre el modelo de optimimización y calibración usado **The Optimization Software Toolkit for Research Involving Computational Heuristics (OSTRICH)** para obetener los parámetros de los modelos de cada subcuenca.
+
+## Estructura del código
+
+El directorio principal `/RHC_GP` está compuesto por los siguientes directorios y archivos:
+
+1. `/bin`: Contiene el archivo `makefile` y los ejecutables de los modelos tras la compilación. 
+2. `/inc`: Contiene todos los archivos de cabecera `*.h`. 
+3. `/src`: Contiene todos los archivos de código fuente `*.c`. 
+4. `/[modelo]_[subcuenca]`, : Aplicación de un modelo (por ejemplo, GR4J, HBV o HYMOD) a una subcuenca específica. Por ejemplo, `gr4j_S1` contiene los archivos de entrada necesarios para aplicar el modelo GR4J en la subcuenca 1. Este directorio incluye los archivos de entrada correspondientes.
+5. `/tools`: Contiene scripts en `python` para el posprocesamiento de los resultados de los modelos:
+- El script `plot_boxplots.py` genera gráficos boxplots que representan los regimenes anuales por mes de las series temporales simuladas de caudal por subcuenca.
+- El script `plot_subcuencas.py` genera las series temporales de caudales simuladas por subcuenca y modelo usado, agregado a nivel diario, mensual y anual.
+- El script `plot_distribuciones.py` las distribuciones de probabilidad de las series temporales de cada modelo, por subcuenca.
+- El script `plot_in_out.py` genera gráficos de las series temporales simuladas y observadas, así como de las variables presentes en el archivo de entrada `meteo.in`.
+6. `/graficas_boxplots`: Contiene las imágenes producidas por el script `plot_boxplots.py`.
+7. `/graficas_distribuciones`: Contiene las imágenes producidas por el script `plot_distribuciones.py`.
+8. `/graficas_series`: Contiene las imágenes producidas por el script `plot_subcuencas.py`.
+
 # TROPICAL HYDROLOGICAL MODELLING (THYM) PLATFORM
 ---
 
