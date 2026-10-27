@@ -23,11 +23,48 @@ El directorio principal `/RHC_GP` está compuesto por los siguientes directorios
 5. `/tools`: Contiene scripts en `python` para el posprocesamiento de los resultados de los modelos:
 - El script `plot_boxplots.py` genera gráficos boxplots que representan los regimenes anuales por mes de las series temporales simuladas de caudal por subcuenca.
 - El script `plot_subcuencas.py` genera las series temporales de caudales simuladas por subcuenca y modelo usado, agregado a nivel diario, mensual y anual.
-- El script `plot_distribuciones.py` las distribuciones de probabilidad de las series temporales de cada modelo, por subcuenca.
+- El script `plot_distribuciones.py` genera las distribuciones de probabilidad de las series temporales de cada modelo, por subcuenca.
+- El script `procesar_et.py` Procesa la evapotranspiración (et_mm) de 'results.out' para todas las subcuencas y consolida los resultados en tres archivos de acuerdo con la agregación temporal (diaria, mensual y anual): `et_diaria.csv`, `et_mensual.csv` y `et_anual.csv`
+- El script `procesar_meteo.py` Procesa las siguientes variables: precipitación (precip), temperatura máxima (tmax), mínima (tmin) y media (tave) de 'meteo.in' para todas las subcuencas y consolida los resultados en tres archivos de acuerdo con la agregación temporal (diaria, mensual y anual) y la variable seleccionada:`variable_diaria.csv`, `variable_mensual.csv` y `variable_anual.csv`.
+- El script `procesar_q.py` Procesa el caudal (q_m3s) de 'results.out' para todas las subcuencas y modelos, consolidándolos en tres archivos de acuerdo con la agregación temporal (diario, mensual y anual): `q_diario.csv`, `q_mensual.csv` y `q_anual.csv`.
 - El script `plot_in_out.py` genera gráficos de las series temporales simuladas y observadas, así como de las variables presentes en el archivo de entrada `meteo.in`.
 6. `/graficas_boxplots`: Contiene las imágenes producidas por el script `plot_boxplots.py`.
 7. `/graficas_distribuciones`: Contiene las imágenes producidas por el script `plot_distribuciones.py`.
 8. `/graficas_series`: Contiene las imágenes producidas por el script `plot_subcuencas.py`.
+9. `/Agregacion_variables`: Contiene los resultados del ensamble de modelos producidos por los scripts `procesar_et.py`, `procesar_meteo.py` y `procesar_q.py`.
+
+## Ensamble de modelos
+Posterior a la simulación de todos los casos de estudio:
+1. Ir a `/tools`.
+2. Ejecutar los siguientes scripts:
+
+### procesar_et.py
+Este script está automatizado para procesar las 6 subcuencas identificadas en la cuenca del Río Guatiquía y el modelo GR4J, por lo cual, si se desea añadir más o menos subcuencas se debe modificar la función `__init__` y si se quieren obetener los resultados de otras carpetas diferentes al modelo GR4J se debe modificar la variable `results_path` dentro de la función `process_et`.
+El modo de uso del script es el siguiente: `./procesar_et.py /ruta/a/RHC_GP`, siendo `/ruta/a/RHC_GP` la ruta base del repositorio donde se tienen las carpetas del caso de estudio.
+
+### procesar_meteo.py
+Este script está automatizado para procesar las 6 subcuencas identificadas en la cuenca del Río Guatiquía y el modelo GR4J, por lo cual, si se desea añadir más o menos subcuencas se debe modificar la función `__init__` y si se quieren obetener los resultados de otras carpetas diferentes al modelo GR4J se debe especificar el modelo en la línea de código de ejecución.
+El modo de uso del script es el siguiente: `./procesar_meteo.py /ruta/a/RHC_GP [variable] [modelo]`. Si no se especifica nada en modelo, el código escogerá automáticamente GR4J y si no se colocá la variable se seleccionará la precipitación (precip).
+
+### procesar_q.py
+Este script está automatizado para procesar las 6 subcuencas identificadas en la cuenca del Río Guatiquía y todos los modelos, por lo cual, si se desea añadir más o menos subcuencas se debe modificar la función `__init__`.
+El modo de uso del script es el siguiente: `./procesar_q.py /ruta/a/RHC_GP`.
+
+## Graficación
+1. Ir a `/tools`.
+2. Ejecutar los siguientes scripts:
+
+### plot_boxplots.py
+Este script está automatizado para procesar las 6 subcuencas identificadas en la cuenca del Río Guatiquía y todos los modelos, por lo cual, si se desea añadir más o menos subcuencas se debe modificar la función `__init__`.
+El modo de uso del script es el siguiente: `./plot_boxplots.py /ruta/a/RHC_GP`.
+
+### plot_subcuencas.py
+Este script está automatizado para procesar las 6 subcuencas identificadas en la cuenca del Río Guatiquía y todos los modelos, por lo cual, si se desea añadir más o menos subcuencas se debe modificar la función `__init__`.
+El modo de uso del script es el siguiente: `./plot_subcuencas.py /ruta/a/RHC_GP`.
+
+### plot_distribuciones.py
+Este script está automatizado para procesar las 6 subcuencas identificadas en la cuenca del Río Guatiquía y todos los modelos, por lo cual, si se desea añadir más o menos subcuencas se debe modificar la función `__init__`.
+El modo de uso del script es el siguiente: `./plot_distribuciones.py /ruta/a/RHC_GP`.
 
 # TROPICAL HYDROLOGICAL MODELLING (THYM) PLATFORM
 ---
