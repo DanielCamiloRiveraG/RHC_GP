@@ -22,16 +22,20 @@ El directorio principal `/RHC_GP` está compuesto por los siguientes directorios
 4. `/[modelo]_[subcuenca]`, : Aplicación de un modelo (por ejemplo, GR4J, HBV o HYMOD) a una subcuenca específica. Por ejemplo, `gr4j_S1` contiene los archivos de entrada necesarios para aplicar el modelo GR4J en la subcuenca 1. Este directorio incluye los archivos de entrada correspondientes.
 5. `/tools`: Contiene scripts en `python` para el posprocesamiento de los resultados de los modelos:
 - El script `plot_boxplots.py` genera gráficos boxplots que representan los regimenes anuales por mes de las series temporales simuladas de caudal por subcuenca.
-- El script `plot_subcuencas.py` genera las series temporales de caudales simuladas por subcuenca y modelo usado, agregado a nivel diario, mensual y anual.
-- El script `plot_distribuciones.py` genera las distribuciones de probabilidad de las series temporales de cada modelo, por subcuenca.
+- El script `plot_subcuencas.py` genera gráficos de las series temporales de caudales simuladas por subcuenca y modelo usado, agregado a nivel diario, mensual y anual.
+- El script `plot_distribuciones.py` genera gráficos de las distribuciones de probabilidad de las series temporales de cada modelo, por subcuenca.
 - El script `procesar_et.py` Procesa la evapotranspiración (et_mm) de 'results.out' para todas las subcuencas y consolida los resultados en tres archivos de acuerdo con la agregación temporal (diaria, mensual y anual): `et_diaria.csv`, `et_mensual.csv` y `et_anual.csv`
 - El script `procesar_meteo.py` Procesa las siguientes variables: precipitación (precip), temperatura máxima (tmax), mínima (tmin) y media (tave) de 'meteo.in' para todas las subcuencas y consolida los resultados en tres archivos de acuerdo con la agregación temporal (diaria, mensual y anual) y la variable seleccionada:`variable_diaria.csv`, `variable_mensual.csv` y `variable_anual.csv`.
 - El script `procesar_q.py` Procesa el caudal (q_m3s) de 'results.out' para todas las subcuencas y modelos, consolidándolos en tres archivos de acuerdo con la agregación temporal (diario, mensual y anual): `q_diario.csv`, `q_mensual.csv` y `q_anual.csv`.
+- El script `plot_ensamble_series.py` genera gráficos de las series temporales de todas las variables ensambladas por subcuenca de acuerdo con la agregación temporal (diaria, mensual y anual).
+- El script `plot_ensamble_boxplots.py` genera gráficos boxplots que representan los regimenes anuales por mes de todas las variables ensambladas por subcuenca.
 - El script `plot_in_out.py` genera gráficos de las series temporales simuladas y observadas, así como de las variables presentes en el archivo de entrada `meteo.in`.
 6. `/graficas_boxplots`: Contiene las imágenes producidas por el script `plot_boxplots.py`.
 7. `/graficas_distribuciones`: Contiene las imágenes producidas por el script `plot_distribuciones.py`.
 8. `/graficas_series`: Contiene las imágenes producidas por el script `plot_subcuencas.py`.
 9. `/Agregacion_variables`: Contiene los resultados del ensamble de modelos producidos por los scripts `procesar_et.py`, `procesar_meteo.py` y `procesar_q.py`.
+10. `/Ensamble_series_temporales`: Contiene las imágenes producidas por el script `plot_ensamble_series.py`.
+11. `/Ensamble_boxplots`: Contiene las imágenes producidas por el script `plot_ensamble_boxplots.py`.
 
 ## Ensamble de modelos
 Posterior a la simulación de todos los casos de estudio:
@@ -65,6 +69,14 @@ El modo de uso del script es el siguiente: `./plot_subcuencas.py /ruta/a/RHC_GP`
 ### plot_distribuciones.py
 Este script está automatizado para procesar las 6 subcuencas identificadas en la cuenca del Río Guatiquía y todos los modelos, por lo cual, si se desea añadir más o menos subcuencas se debe modificar la función `__init__`.
 El modo de uso del script es el siguiente: `./plot_distribuciones.py /ruta/a/RHC_GP`.
+
+### plot_ensamble_series.py
+Este script está automatizado para procesar todos los archivos de la carpeta `/Agregacion_variables`.
+El modo de uso del script es el siguiente: `./plot_ensamble_series.py /ruta/a/RHC_GP`.
+
+### plot_ensamble_boxplots.py
+Este script está automatizado para procesar todos los archivos de tipo mensual en la carpeta `/Agregacion_variables`.
+El modo de uso del script es el siguiente: `./plot_ensamble_boxplots.py /ruta/a/RHC_GP`.
 
 # TROPICAL HYDROLOGICAL MODELLING (THYM) PLATFORM
 ---
